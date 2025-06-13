@@ -230,7 +230,11 @@ function Character(props: CharacterProps) {
       role="button"
       onClick={props.onSelect}
     >
-      <img src={`/characters/${props.type}/${props.name}.png`}></img>
+      <img
+        src={`${import.meta.env.BASE_URL}/characters/${props.type}/${
+          props.name
+        }.png`}
+      ></img>
       <p>{props.name}</p>
     </div>
   );
