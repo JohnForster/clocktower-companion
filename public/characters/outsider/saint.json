@@ -1,0 +1,1 @@
+{"name": "Saint", "ability": "If you die by execution, your team loses.", "type": "outsider", "icon": "Saint.png", "first_night": false, "other_nights": false, "reminders": [], "affects_setup": false, "home_script": "1 - Trouble Brewing"}

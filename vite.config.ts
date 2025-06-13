@@ -1,0 +1,40 @@
+import { VitePWA } from "vite-plugin-pwa";
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    preact(),
+    VitePWA({
+      registerType: "autoUpdate",
+      injectRegister: false,
+
+      pwaAssets: {
+        disabled: false,
+        config: true,
+      },
+
+      manifest: {
+        name: "Clocktower Companion",
+        short_name: "clocktower-companion",
+        description:
+          "An app for playing Blood on the Clocktower without a physical Grimoire.",
+        theme_color: "#30263a",
+      },
+
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+      },
+
+      devOptions: {
+        enabled: false,
+        navigateFallback: "index.html",
+        suppressWarnings: true,
+        type: "module",
+      },
+    }),
+  ],
+});

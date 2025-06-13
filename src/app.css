@@ -1,0 +1,49 @@
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.4rem;
+  text-align: center;
+  flex: 1;
+}
+
+.logo {
+  height: 4em;
+  padding: 0.4em;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.preact:hover {
+  filter: drop-shadow(0 0 2em #673ab8aa);
+}
+
+.card {
+  padding: 0.4em;
+}
+
+.card > summary {
+  justify-self: baseline;
+  padding-bottom: 0.4em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.card .buttons {
+  margin-bottom: 0.8em;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px; /* Adjust spacing as needed */
+  font-size: var(--text-sm);
+}
+
+.language-selection {
+  justify-self: baseline;
+  display: flex;
+  gap: 5px;
+}
