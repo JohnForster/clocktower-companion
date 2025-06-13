@@ -2,6 +2,8 @@ import "./PWABadge.css";
 
 import { useRegisterSW } from "virtual:pwa-register/preact";
 
+declare var setOfflineReady: Function | undefined;
+
 function PWABadge() {
   // check for updates every hour
   const period = 60 * 60 * 1000;

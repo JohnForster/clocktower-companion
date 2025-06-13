@@ -6,7 +6,7 @@ import { SelectCharacterDialog } from "./components/SelectCharacterDialog/Select
 import "./app.css";
 
 export function App() {
-  const [state, setState] = useState({});
+  const [state, _setState] = useState({});
   const [dialog, setDialog] = useState<Dialog>(null);
 
   return (

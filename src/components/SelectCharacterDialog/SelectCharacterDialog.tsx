@@ -1,8 +1,7 @@
-import { useState } from "preact/hooks";
 import { Modal } from "../Modal/Modal";
 
 import "./SelectCharacterDialog.css";
-import { ChangeEventHandler, EventHandler } from "preact/compat";
+import { ChangeEventHandler } from "preact/compat";
 import { shuffle } from "../../utils/shuffle";
 import { usePersisted } from "../../hooks/usePersistedState";
 
