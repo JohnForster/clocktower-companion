@@ -35,12 +35,15 @@ label {
   min-width: 4rem;
   height: 5rem;
   font-size: var(--text-xs);
-  color: lightgray;
+  text-align: center;
 }
 
 .character.selected {
-  color: white;
   font-weight: bold;
+}
+
+.character:not(.selected) {
+  color: var(--unselected-color);
 }
 
 .character img {
@@ -50,8 +53,14 @@ label {
   filter: saturate(0) brightness(0.8);
 }
 
-.character.selected img {
-  filter: drop-shadow(0px 0px 6px white);
+.character.selected.outsider > img,
+.character.selected.townsfolk > img {
+  filter: drop-shadow(0px 0px 6px var(--good-highlight));
+}
+
+.character.selected.minion > img,
+.character.selected.demon > img {
+  filter: drop-shadow(0px 0px 6px var(--evil-highlight));
 }
 
 .character p {

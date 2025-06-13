@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text-color);
+  background-color: var(--background-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,6 +20,16 @@
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
   --text-4xl: 2.25rem;
+  --text-color: rgba(255, 255, 255, 0.87);
+
+  --background-color: #242424;
+  --unselected-color: lightgray;
+  --good-highlight: white;
+  --evil-highlight: white;
+}
+
+dialog {
+  background-color: #242424;
 }
 
 a {
@@ -65,13 +75,19 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --text-color: #213547;
+    --unselected-color: gray;
+    --good-highlight: #0092bd;
+    --evil-highlight: #8e0f13;
+    --background-color: #ffffff;
   }
   a:hover {
     color: #747bff;
   }
   button {
     background-color: #f9f9f9;
+  }
+  dialog {
+    background-color: var(--background-color);
   }
 }

@@ -224,12 +224,9 @@ type CharacterProps = {
 };
 
 function Character(props: CharacterProps) {
+  const classes = ["character", props.type, props.selected ? "selected" : ""];
   return (
-    <div
-      class={props.selected ? "character selected" : "character"}
-      role="button"
-      onClick={props.onSelect}
-    >
+    <div class={classes.join(" ")} role="button" onClick={props.onSelect}>
       <img
         src={`${import.meta.env.BASE_URL}/characters/${props.type}/${
           props.name

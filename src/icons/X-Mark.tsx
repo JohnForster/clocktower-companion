@@ -1,11 +1,11 @@
-export function XMark() {
+export function XMark(props: { colour: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="white"
+      stroke={props.colour}
       className="size-6"
     >
       <path

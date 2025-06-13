@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import { useRef, useEffect } from "preact/hooks";
 import "./Modal.css";
 import { XMark } from "../../icons/X-Mark";
+import { cssVar } from "../../utils/cssVar";
 
 type ModalProps = {
   title: string;
@@ -26,7 +27,7 @@ export function Modal(props: ModalProps) {
       <div class="dialog-header">
         <h2>{props.title}</h2>
         <div class="closeButton" role="button" onClick={props.close}>
-          <XMark />
+          <XMark colour={cssVar("--text-color")} />
         </div>
       </div>
       <div className="dialog-content">{props.children}</div>
