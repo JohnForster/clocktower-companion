@@ -233,6 +233,9 @@ function Character(props: CharacterProps) {
         }.png`}
       ></img>
       <p>{props.name}</p>
+      <p aria-hidden="true" class="hidden-bold" tabIndex={-1}>
+        {props.name}
+      </p>
     </div>
   );
 }

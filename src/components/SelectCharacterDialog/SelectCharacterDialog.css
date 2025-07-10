@@ -26,16 +26,32 @@ label {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  gap: 3px;
+  gap: 5px;
   width: 100%;
   margin-bottom: 1rem;
 }
 
 .character {
   min-width: 4rem;
-  height: 5rem;
+  height: auto;
   font-size: var(--text-xs);
   text-align: center;
+}
+
+/* .character p::after {
+  display: block;
+  content: attr(data-content);
+  font-weight: bold;
+  height: 1px;
+  color: transparent;
+  overflow: hidden;
+  visibility: hidden;
+} */
+
+.character .hidden-bold {
+  height: 0px;
+  font-weight: bold;
+  overflow-y: hidden;
 }
 
 .character.selected {
@@ -69,4 +85,20 @@ label {
 
 .random-button {
   align-self: center;
+}
+
+@media (min-width: 768px) {
+  .character {
+    min-width: 5.2rem;
+    font-size: var(--text-base);
+    padding: 0.5rem;
+  }
+
+  .character img {
+    width: 5rem;
+  }
+
+  .character-select {
+    row-gap: 1rem;
+  }
 }
