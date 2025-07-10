@@ -107,7 +107,7 @@ export const SelectCharacterDialog = (props: SelectCharacterDialogProps) => {
           id="players-slider"
           type="range"
           min="5"
-          max="20"
+          max="15"
           value={numberOfPlayers}
           onInput={handleChange}
         ></input>
