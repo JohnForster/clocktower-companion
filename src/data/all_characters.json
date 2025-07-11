@@ -1,0 +1,252 @@
+{
+  "baron": {
+    "name": "Baron",
+    "ability": "There are extra Outsiders in play.",
+    "setup_text": "[+2 Outsiders]",
+    "setup_change": {
+      "outsiders": 2
+    },
+    "type": "minion",
+    "icon": "Baron.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": [],
+    "affects_setup": true,
+    "home_script": "Trouble Brewing"
+  },
+  "butler": {
+    "name": "Butler",
+    "ability": "Each night, choose a player (not yourself): tomorrow, you may only vote if they are voting too.",
+    "type": "outsider",
+    "icon": "Butler.png",
+    "first_night": true,
+    "other_nights": true,
+    "reminders": ["MASTER"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "chef": {
+    "name": "Chef",
+    "ability": "You start knowing how many pairs of evil players there are.",
+    "type": "townsfolk",
+    "icon": "Chef.png",
+    "first_night": true,
+    "other_nights": false,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "drunk": {
+    "name": "Drunk",
+    "ability": "You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.",
+    "type": "outsider",
+    "icon": "Drunk.png",
+    "bag_change": {
+      "townsfolk": 1,
+      "outsiders": -1
+    },
+    "first_night": false,
+    "other_nights": false,
+    "reminders": ["IS THE DRUNK"],
+    "affects_setup": true,
+    "home_script": "Trouble Brewing"
+  },
+  "empath": {
+    "name": "Empath",
+    "ability": "Each night, you learn how many of your 2 alive neighbors are evil.",
+    "type": "townsfolk",
+    "icon": "Empath.png",
+    "first_night": true,
+    "other_nights": true,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "fortuneteller": {
+    "name": "Fortune Teller",
+    "ability": "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you.",
+    "type": "townsfolk",
+    "icon": "Fortune_Teller.png",
+    "first_night": true,
+    "other_nights": true,
+    "reminders": ["RED HERRING"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "imp": {
+    "name": "Imp",
+    "ability": "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Imp.",
+    "type": "demon",
+    "icon": "Imp.png",
+    "first_night": false,
+    "other_nights": true,
+    "reminders": ["DEAD"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "investigator": {
+    "name": "Investigator",
+    "ability": "You start knowing that 1 of 2 players is a particular Minion.",
+    "type": "townsfolk",
+    "icon": "Investigator.png",
+    "first_night": true,
+    "other_nights": false,
+    "reminders": ["WRONG", "MINION"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "librarian": {
+    "name": "Librarian",
+    "ability": "You start knowing that 1 of 2 players is a particular Outsider. (Or that zero are in play.)",
+    "type": "townsfolk",
+    "icon": "Librarian.png",
+    "first_night": true,
+    "other_nights": false,
+    "reminders": ["OUTSIDER", "WRONG"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "mayor": {
+    "name": "Mayor",
+    "ability": "If only 3 players live & no execution occurs, your team wins. If you die at night, another player might die instead.",
+    "type": "townsfolk",
+    "icon": "Mayor.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "monk": {
+    "name": "Monk",
+    "ability": "Each night*, choose a player (not yourself): they are safe from the Demon tonight.",
+    "type": "townsfolk",
+    "icon": "Monk.png",
+    "first_night": false,
+    "other_nights": true,
+    "reminders": ["SAFE"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "poisoner": {
+    "name": "Poisoner",
+    "ability": "Each night, choose a player: they are poisoned tonight and tomorrow day.",
+    "type": "minion",
+    "icon": "Poisoner.png",
+    "first_night": true,
+    "other_nights": true,
+    "reminders": ["POISONED"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "ravenkeeper": {
+    "name": "Ravenkeeper",
+    "ability": "If you die at night, you are woken to choose a player: you learn their character.",
+    "type": "townsfolk",
+    "icon": "Ravenkeeper.png",
+    "first_night": false,
+    "other_nights": true,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "recluse": {
+    "name": "Recluse",
+    "ability": "You might register as evil & as a Minion or Demon, even if dead.",
+    "type": "outsider",
+    "icon": "Recluse.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "saint": {
+    "name": "Saint",
+    "ability": "If you die by execution, your team loses.",
+    "type": "outsider",
+    "icon": "Saint.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "scarletwoman": {
+    "name": "Scarlet Woman",
+    "ability": "If there are 5 or more players alive & the Demon dies, you become the Demon. (Travellers don't count.)",
+    "type": "minion",
+    "icon": "Scarlet_Woman.png",
+    "first_night": false,
+    "other_nights": true,
+    "reminders": ["IS THE DEMON"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "slayer": {
+    "name": "Slayer",
+    "ability": "Once per game, during the day, publicly choose a player: if they are the Demon, they die.",
+    "type": "townsfolk",
+    "icon": "Slayer.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": ["NO ABILITY"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "soldier": {
+    "name": "Soldier",
+    "ability": "You are safe from the Demon.",
+    "type": "townsfolk",
+    "icon": "Soldier.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "spy": {
+    "name": "Spy",
+    "ability": "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.",
+    "type": "minion",
+    "icon": "Spy.png",
+    "first_night": true,
+    "other_nights": true,
+    "reminders": [],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "undertaker": {
+    "name": "Undertaker",
+    "ability": "Each night*, you learn which character died by execution today.",
+    "type": "townsfolk",
+    "icon": "Undertaker.png",
+    "first_night": false,
+    "other_nights": true,
+    "reminders": ["DIED TODAY"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "virgin": {
+    "name": "Virgin",
+    "ability": "The 1st time you are nominated, if the nominator is a Townsfolk, they are executed immediately.",
+    "type": "townsfolk",
+    "icon": "Virgin.png",
+    "first_night": false,
+    "other_nights": false,
+    "reminders": ["NO ABILITY"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  },
+  "washerwoman": {
+    "name": "Washerwoman",
+    "ability": "You start knowing that 1 of 2 players is a particular Townsfolk.",
+    "type": "townsfolk",
+    "icon": "Washerwoman.png",
+    "first_night": true,
+    "other_nights": false,
+    "reminders": ["WRONG", "TOWNSFOLK"],
+    "affects_setup": false,
+    "home_script": "Trouble Brewing"
+  }
+}

@@ -1,9 +1,11 @@
 import { Modal } from "../Modal/Modal";
 
 import "./SelectCharacterDialog.css";
-import { ChangeEventHandler } from "preact/compat";
+import { ChangeEventHandler, useState } from "preact/compat";
 import { shuffle } from "../../utils/shuffle";
 import { usePersisted } from "../../hooks/usePersistedState";
+import TROUBLE_BREWING from "../../data/scripts/trouble_brewing.json";
+import ALL_CHARS from "../../data/all_characters.json";
 
 type SelectCharacterDialogProps = {
   isOpen: boolean;
@@ -15,6 +17,21 @@ type CharType =
   | "outsider"
   | "minion"
   | "demon" /* | "traveller" */;
+
+type CharacterData = {
+  name: string;
+  ability: string;
+  setup_text?: string;
+  setup_change?: { [K in CharType]?: number };
+  bag_change?: { [K in CharType]?: number };
+  type: CharType;
+  icon: string;
+  first_night: boolean;
+  other_nights: boolean;
+  reminders: string[];
+  affects_setup: boolean;
+  home_script: string;
+};
 
 export type Setup = Record<CharType, number>;
 
@@ -38,6 +55,7 @@ export const SelectCharacterDialog = (props: SelectCharacterDialogProps) => {
     "selectedCharacters",
     {}
   );
+  const [showAbilityText, setShowAbilityText] = useState(false);
 
   const baseSetup = PLAYER_SETUP[numberOfPlayers];
   const [setup, setSetup] = usePersisted("setup", baseSetup);
@@ -74,7 +92,12 @@ export const SelectCharacterDialog = (props: SelectCharacterDialogProps) => {
         <span class="players-display">{numberOfPlayers}</span>
       </div>
       <div class="checkbox-section">
-        <input type="checkbox" id="show-abilities"></input>
+        <input
+          type="checkbox"
+          id="show-abilities"
+          checked={showAbilityText}
+          onChange={() => setShowAbilityText(!showAbilityText)}
+        ></input>
         <label for="show-abilities">Show ability text</label>
       </div>
       <div class="checkbox-section">
@@ -89,24 +112,28 @@ export const SelectCharacterDialog = (props: SelectCharacterDialogProps) => {
         selectedCharacters={selectedCharacters}
         setup={setup}
         onSelectChar={handleSelect}
+        showAbilityText={showAbilityText}
       />
       <CharacterSection
         characterType={"outsider"}
         selectedCharacters={selectedCharacters}
         setup={setup}
         onSelectChar={handleSelect}
+        showAbilityText={showAbilityText}
       />
       <CharacterSection
         characterType={"minion"}
         selectedCharacters={selectedCharacters}
         setup={setup}
         onSelectChar={handleSelect}
+        showAbilityText={showAbilityText}
       />
       <CharacterSection
         characterType={"demon"}
         selectedCharacters={selectedCharacters}
         setup={setup}
         onSelectChar={handleSelect}
+        showAbilityText={showAbilityText}
       />
     </Modal>
   );
@@ -137,6 +164,7 @@ type CharacterSectionProps = {
   selectedCharacters: Record<string, boolean>;
   setup: Setup;
   onSelectChar: (c: string) => void;
+  showAbilityText: boolean;
 };
 
 function CharacterSection({
@@ -144,40 +172,45 @@ function CharacterSection({
   selectedCharacters,
   setup,
   onSelectChar,
+  showAbilityText,
 }: CharacterSectionProps) {
   const n_expected = setup[characterType];
-  let title, allChars;
+  let title;
   switch (characterType) {
     case "townsfolk":
-      (title = "Townsfolk"), (allChars = TOWNSFOLK);
+      title = "Townsfolk";
       break;
     case "outsider":
-      (title = "Outsiders"), (allChars = OUTSIDERS);
+      title = "Outsiders";
       break;
     case "minion":
-      (title = "Minions"), (allChars = MINIONS);
+      title = "Minions";
       break;
     case "demon":
-      (title = "Demon"), (allChars = DEMONS);
+      title = "Demon";
       break;
   }
+
+  const allChars = Object.values(
+    ALL_CHARS as Record<string, CharacterData>
+  ).filter((c) => c.type === characterType);
 
   return (
     <>
       {title}{" "}
       {
         Object.keys(selectedCharacters).filter(
-          (c) => selectedCharacters[c] && allChars.includes(c)
+          (c) => selectedCharacters[c] && allChars.find((ch) => ch.name === c)
         ).length
       }{" "}
       / {n_expected}
       <div class="character-select">
         {allChars.map((c) => (
           <Character
-            name={c}
-            type={characterType}
-            selected={selectedCharacters[c]}
-            onSelect={() => onSelectChar(c)}
+            character={c}
+            selected={selectedCharacters[c.name]}
+            onSelect={() => onSelectChar(c.name)}
+            showAbilityText={showAbilityText}
           />
         ))}
       </div>
@@ -185,25 +218,38 @@ function CharacterSection({
   );
 }
 
+const FT_ABILITY =
+  "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you.";
+
 type CharacterProps = {
-  type: CharType;
-  name: string;
+  character: CharacterData;
   onSelect: () => void;
   selected: boolean;
+  showAbilityText: boolean;
 };
 
 function Character(props: CharacterProps) {
-  const classes = ["character", props.type, props.selected ? "selected" : ""];
+  let classes = ["character", props.character.type];
+  if (props.selected) classes.push("selected");
+  if (props.showAbilityText) classes.push("align-left");
   return (
     <div class={classes.join(" ")} role="button" onClick={props.onSelect}>
-      <img
-        src={`${import.meta.env.BASE_URL}/characters/${props.type}/${
-          props.name
-        }.png`}
-      ></img>
-      <p>{props.name}</p>
-      <p aria-hidden="true" class="hidden-bold" tabIndex={-1}>
-        {props.name}
+      <div class="image-and-title">
+        <img
+          src={`${import.meta.env.BASE_URL}/characters/${props.character.icon}`}
+          class={
+            props.showAbilityText
+              ? "character-icon smaller-image"
+              : "character-icon"
+          }
+        ></img>
+        <p>{props.character.name}</p>
+        <p aria-hidden="true" class="hidden-bold" tabIndex={-1}>
+          {props.character.name}
+        </p>
+      </div>
+      <p class="ability-text" hidden={!props.showAbilityText}>
+        {props.character.ability}
       </p>
     </div>
   );

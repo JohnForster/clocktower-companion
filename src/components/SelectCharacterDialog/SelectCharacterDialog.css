@@ -28,14 +28,41 @@ label {
   justify-content: space-evenly;
   gap: 5px;
   width: 100%;
-  margin-bottom: 1rem;
 }
 
 .character {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  justify-content: center;
+  flex: auto;
+}
+
+.character .image-and-title {
   min-width: 4rem;
   height: auto;
   font-size: var(--text-xs);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  flex: 0;
+}
+.image-and-title p {
+  margin: 0;
+}
+
+.align-left {
+  justify-content: flex-start;
+}
+
+.ability-text {
+  font-size: var(--text-xs);
+  margin: 0;
+  margin-left: 2rem;
+  font-weight: normal;
+  align-self: center;
 }
 
 .character .hidden-bold {
@@ -54,38 +81,53 @@ label {
 
 .character img {
   height: 3.5rem;
-  width: 3.5rem;
+  max-width: 4rem;
   object-fit: contain;
   filter: saturate(0) brightness(0.8);
 }
 
-.character.selected.outsider > img,
-.character.selected.townsfolk > img {
+.character img.smaller-image {
+  height: 2.5rem;
+}
+
+.character.selected.outsider img.character-icon,
+.character.selected.townsfolk img.character-icon {
   filter: drop-shadow(0px 0px 6px var(--good-highlight));
 }
 
-.character.selected.minion > img,
-.character.selected.demon > img {
+.character.selected.minion img.character-icon,
+.character.selected.demon img.character-icon {
   filter: drop-shadow(0px 0px 6px var(--evil-highlight));
-}
-
-.character p {
-  margin: 0;
 }
 
 .random-button {
   align-self: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   .character {
     min-width: 5.2rem;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     padding: 0.5rem;
+    max-width: 45%;
+  }
+
+  .character .image-and-title {
+    font-size: var(--text-sm);
+  }
+
+  .ability-text {
+    font-size: var(--text-sm);
   }
 
   .character img {
-    width: 5rem;
+    height: 5rem;
+    max-width: 6rem;
+  }
+
+  .character img.smaller-image {
+    height: 4rem;
+    width: 4rem;
   }
 
   .character-select {
