@@ -9,95 +9,55 @@ type SelectCharacterDialogProps = {
   isOpen: boolean;
   close: () => void;
 };
-type Setup = {
-  townsfolk: number;
-  outsiders: number;
-  minions: number;
-  demons: number;
-};
+
+type CharType =
+  | "townsfolk"
+  | "outsider"
+  | "minion"
+  | "demon" /* | "traveller" */;
+
+export type Setup = Record<CharType, number>;
 
 const PLAYER_SETUP: Record<number, Setup> = {
-  5: { townsfolk: 3, outsiders: 0, minions: 1, demons: 1 },
-  6: { townsfolk: 3, outsiders: 1, minions: 1, demons: 1 },
-  7: { townsfolk: 5, outsiders: 0, minions: 1, demons: 1 },
-  8: { townsfolk: 5, outsiders: 1, minions: 1, demons: 1 },
-  9: { townsfolk: 5, outsiders: 2, minions: 1, demons: 1 },
-  10: { townsfolk: 7, outsiders: 0, minions: 2, demons: 1 },
-  11: { townsfolk: 7, outsiders: 1, minions: 2, demons: 1 },
-  12: { townsfolk: 7, outsiders: 2, minions: 2, demons: 1 },
-  13: { townsfolk: 9, outsiders: 0, minions: 3, demons: 1 },
-  14: { townsfolk: 9, outsiders: 1, minions: 3, demons: 1 },
-  15: { townsfolk: 9, outsiders: 2, minions: 3, demons: 1 },
+  5: { townsfolk: 3, outsider: 0, minion: 1, demon: 1 },
+  6: { townsfolk: 3, outsider: 1, minion: 1, demon: 1 },
+  7: { townsfolk: 5, outsider: 0, minion: 1, demon: 1 },
+  8: { townsfolk: 5, outsider: 1, minion: 1, demon: 1 },
+  9: { townsfolk: 5, outsider: 2, minion: 1, demon: 1 },
+  10: { townsfolk: 7, outsider: 0, minion: 2, demon: 1 },
+  11: { townsfolk: 7, outsider: 1, minion: 2, demon: 1 },
+  12: { townsfolk: 7, outsider: 2, minion: 2, demon: 1 },
+  13: { townsfolk: 9, outsider: 0, minion: 3, demon: 1 },
+  14: { townsfolk: 9, outsider: 1, minion: 3, demon: 1 },
+  15: { townsfolk: 9, outsider: 2, minion: 3, demon: 1 },
 };
 
 export const SelectCharacterDialog = (props: SelectCharacterDialogProps) => {
   const [numberOfPlayers, setNumberOfPlayers] = usePersisted("playerCount", 7);
-  const [selectedCharacters, setSelectedCharacters] = usePersisted<
-    Record<string, boolean>
-  >("selectedCharacters", {});
+  const [selectedCharacters, setSelectedCharacters] = usePersisted(
+    "selectedCharacters",
+    {}
+  );
 
   const baseSetup = PLAYER_SETUP[numberOfPlayers];
+  const [setup, setSetup] = usePersisted("setup", baseSetup);
 
   const handleSelect = (name: string) => {
-    console.log("selecting", name);
-    if (selectedCharacters[name]) {
-      setSelectedCharacters({ ...selectedCharacters, [name]: false });
-    } else {
-      setSelectedCharacters({ ...selectedCharacters, [name]: true });
-    }
+    setSelectedCharacters({
+      ...selectedCharacters,
+      [name]: !selectedCharacters[name],
+    });
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    console.log("e.currentTarget:", e.currentTarget);
     setNumberOfPlayers(parseInt(e.currentTarget?.value, 10));
   };
 
-  const randomise = () => {
-    const setup = { ...baseSetup };
-    const selectedCharacters: Record<string, boolean> = {};
-
-    const demons = shuffle(DEMONS);
-    for (let i = 0; i < setup.demons; i++) {
-      const char = demons.pop()!;
-      selectedCharacters[char] = true;
-    }
-
-    const minions = shuffle(MINIONS);
-    for (let i = 0; i < setup.minions; i++) {
-      const char = minions.pop()!;
-      if (char === "Baron") {
-        setup.outsiders += 2;
-        setup.townsfolk -= 2;
-      }
-      selectedCharacters[char] = true;
-    }
-
-    const outsiders = shuffle(OUTSIDERS);
-    for (let i = 0; i < setup.outsiders; i++) {
-      const char = outsiders.pop()!;
-      if (char === "Drunk") {
-        setup.townsfolk += 1;
-      }
-      selectedCharacters[char] = true;
-    }
-
-    const townsfolk = shuffle(TOWNSFOLK);
-    for (let i = 0; i < setup.townsfolk; i++) {
-      const char = townsfolk.pop()!;
-      selectedCharacters[char] = true;
-    }
-
-    setSelectedCharacters(selectedCharacters);
+  const randomiseChars = () => {
+    const [randomisedChars, adjustedSetup] = randomise(baseSetup);
+    setSelectedCharacters(randomisedChars);
+    setSetup(adjustedSetup);
   };
-
-  const n_demon = baseSetup.demons;
-  const n_minions = baseSetup.minions;
-  const n_outsiders =
-    baseSetup.outsiders + (selectedCharacters["Baron"] ? 2 : 0);
-  const n_town =
-    baseSetup.townsfolk +
-    (selectedCharacters["Baron"] ? -2 : 0) +
-    (selectedCharacters["Drunk"] ? 1 : 0);
 
   return (
     <Modal title="Select Characters" isOpen={props.isOpen} close={props.close}>
@@ -121,77 +81,33 @@ export const SelectCharacterDialog = (props: SelectCharacterDialogProps) => {
         <input type="checkbox" id="allow-duplicates"></input>
         <label for="allow-duplicates">Allow duplicate characters</label>
       </div>
-      <button class="random-button" onClick={randomise}>
+      <button class="random-button" onClick={randomiseChars}>
         Select Random
       </button>
-      Townsfolk{" "}
-      {
-        Object.keys(selectedCharacters).filter(
-          (c) => selectedCharacters[c] && TOWNSFOLK.includes(c)
-        ).length
-      }{" "}
-      / {n_town}
-      <div class="character-select">
-        {TOWNSFOLK.map((c) => (
-          <Character
-            name={c}
-            type="townsfolk"
-            selected={selectedCharacters[c]}
-            onSelect={() => handleSelect(c)}
-          />
-        ))}
-      </div>
-      Outsiders{" "}
-      {
-        Object.keys(selectedCharacters).filter(
-          (c) => selectedCharacters[c] && OUTSIDERS.includes(c)
-        ).length
-      }{" "}
-      / {n_outsiders}
-      <div class="character-select">
-        {OUTSIDERS.map((c) => (
-          <Character
-            name={c}
-            type="outsider"
-            selected={selectedCharacters[c]}
-            onSelect={() => handleSelect(c)}
-          />
-        ))}
-      </div>
-      Minions{" "}
-      {
-        Object.keys(selectedCharacters).filter(
-          (c) => selectedCharacters[c] && MINIONS.includes(c)
-        ).length
-      }{" "}
-      / {n_minions}
-      <div class="character-select">
-        {MINIONS.map((c) => (
-          <Character
-            name={c}
-            type="minion"
-            selected={selectedCharacters[c]}
-            onSelect={() => handleSelect(c)}
-          />
-        ))}
-      </div>
-      Demon{" "}
-      {
-        Object.keys(selectedCharacters).filter(
-          (c) => selectedCharacters[c] && DEMONS.includes(c)
-        ).length
-      }{" "}
-      / {n_demon}
-      <div class="character-select">
-        {DEMONS.map((c) => (
-          <Character
-            name={c}
-            type="demon"
-            selected={selectedCharacters[c]}
-            onSelect={() => handleSelect(c)}
-          />
-        ))}
-      </div>
+      <CharacterSection
+        characterType={"townsfolk"}
+        selectedCharacters={selectedCharacters}
+        setup={setup}
+        onSelectChar={handleSelect}
+      />
+      <CharacterSection
+        characterType={"outsider"}
+        selectedCharacters={selectedCharacters}
+        setup={setup}
+        onSelectChar={handleSelect}
+      />
+      <CharacterSection
+        characterType={"minion"}
+        selectedCharacters={selectedCharacters}
+        setup={setup}
+        onSelectChar={handleSelect}
+      />
+      <CharacterSection
+        characterType={"demon"}
+        selectedCharacters={selectedCharacters}
+        setup={setup}
+        onSelectChar={handleSelect}
+      />
     </Modal>
   );
 };
@@ -216,8 +132,61 @@ const DEMONS = ["Imp"];
 const MINIONS = ["Poisoner", "Baron", "Scarlet_Woman", "Spy"];
 const OUTSIDERS = ["Drunk", "Recluse", "Saint", "Butler"];
 
+type CharacterSectionProps = {
+  characterType: CharType;
+  selectedCharacters: Record<string, boolean>;
+  setup: Setup;
+  onSelectChar: (c: string) => void;
+};
+
+function CharacterSection({
+  characterType,
+  selectedCharacters,
+  setup,
+  onSelectChar,
+}: CharacterSectionProps) {
+  const n_expected = setup[characterType];
+  let title, allChars;
+  switch (characterType) {
+    case "townsfolk":
+      (title = "Townsfolk"), (allChars = TOWNSFOLK);
+      break;
+    case "outsider":
+      (title = "Outsiders"), (allChars = OUTSIDERS);
+      break;
+    case "minion":
+      (title = "Minions"), (allChars = MINIONS);
+      break;
+    case "demon":
+      (title = "Demon"), (allChars = DEMONS);
+      break;
+  }
+
+  return (
+    <>
+      {title}{" "}
+      {
+        Object.keys(selectedCharacters).filter(
+          (c) => selectedCharacters[c] && allChars.includes(c)
+        ).length
+      }{" "}
+      / {n_expected}
+      <div class="character-select">
+        {allChars.map((c) => (
+          <Character
+            name={c}
+            type={characterType}
+            selected={selectedCharacters[c]}
+            onSelect={() => onSelectChar(c)}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
 type CharacterProps = {
-  type: "townsfolk" | "outsider" | "minion" | "demon" | "traveller";
+  type: CharType;
   name: string;
   onSelect: () => void;
   selected: boolean;
@@ -238,4 +207,42 @@ function Character(props: CharacterProps) {
       </p>
     </div>
   );
+}
+
+function randomise(baseSetup: Setup): [Record<string, boolean>, Setup] {
+  const setup = { ...baseSetup };
+  const selectedCharacters: Record<string, boolean> = {};
+
+  const demons = shuffle(DEMONS);
+  for (let i = 0; i < setup.demon; i++) {
+    const char = demons.pop()!;
+    selectedCharacters[char] = true;
+  }
+
+  const minions = shuffle(MINIONS);
+  for (let i = 0; i < setup.minion; i++) {
+    const char = minions.pop()!;
+    if (char === "Baron") {
+      setup.outsider += 2;
+      setup.townsfolk -= 2;
+    }
+    selectedCharacters[char] = true;
+  }
+
+  const outsiders = shuffle(OUTSIDERS);
+  for (let i = 0; i < setup.outsider; i++) {
+    const char = outsiders.pop()!;
+    if (char === "Drunk") {
+      setup.townsfolk += 1;
+    }
+    selectedCharacters[char] = true;
+  }
+
+  const townsfolk = shuffle(TOWNSFOLK);
+  for (let i = 0; i < setup.townsfolk; i++) {
+    const char = townsfolk.pop()!;
+    selectedCharacters[char] = true;
+  }
+
+  return [selectedCharacters, setup];
 }

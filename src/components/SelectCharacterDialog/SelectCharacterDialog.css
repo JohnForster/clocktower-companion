@@ -38,16 +38,6 @@ label {
   text-align: center;
 }
 
-/* .character p::after {
-  display: block;
-  content: attr(data-content);
-  font-weight: bold;
-  height: 1px;
-  color: transparent;
-  overflow: hidden;
-  visibility: hidden;
-} */
-
 .character .hidden-bold {
   height: 0px;
   font-weight: bold;
