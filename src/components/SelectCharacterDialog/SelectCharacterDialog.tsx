@@ -4,7 +4,7 @@ import "./SelectCharacterDialog.css";
 import { ChangeEventHandler, useState } from "preact/compat";
 import { shuffle } from "../../utils/shuffle";
 import { usePersisted } from "../../hooks/usePersistedState";
-import TROUBLE_BREWING from "../../data/scripts/trouble_brewing.json";
+// import TROUBLE_BREWING from "../../data/scripts/trouble_brewing.json";
 import ALL_CHARS from "../../data/all_characters.json";
 
 type SelectCharacterDialogProps = {
@@ -217,9 +217,6 @@ function CharacterSection({
     </>
   );
 }
-
-const FT_ABILITY =
-  "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you.";
 
 type CharacterProps = {
   character: CharacterData;
