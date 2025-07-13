@@ -12,11 +12,11 @@
     "preact": "^10.25.4"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.9.4",
-    "@vite-pwa/assets-generator": "^0.2.6",
+    "@preact/preset-vite": "^2.10.2",
+    "@vite-pwa/assets-generator": "^1.0.0",
     "typescript": "~5.7.2",
-    "vite": "^7.0.4",
-    "vite-plugin-pwa": "^0.21.1",
+    "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-pwa": "^1.0.1",
     "workbox-window": "^7.3.0"
   },
   "resolutions": {

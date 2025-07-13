@@ -22,6 +22,18 @@ export default defineConfig({
         description:
           "An app for playing Blood on the Clocktower without a physical Grimoire.",
         theme_color: "#30263a",
+        icons: [
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
       },
 
       workbox: {
