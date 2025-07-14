@@ -18,7 +18,7 @@ export default defineConfig({
 
       manifest: {
         name: "Clocktower Companion",
-        short_name: "clocktower-companion",
+        short_name: "ClockComp",
         description:
           "An app for playing Blood on the Clocktower without a physical Grimoire.",
         theme_color: "#30263a",

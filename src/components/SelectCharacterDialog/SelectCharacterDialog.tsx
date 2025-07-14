@@ -145,7 +145,7 @@ const TOWNSFOLK = [
   "Investigator",
   "Chef",
   "Empath",
-  "Fortune_Teller",
+  "Fortune Teller",
   "Undertaker",
   "Monk",
   "Ravenkeeper",
@@ -156,7 +156,7 @@ const TOWNSFOLK = [
 ];
 
 const DEMONS = ["Imp"];
-const MINIONS = ["Poisoner", "Baron", "Scarlet_Woman", "Spy"];
+const MINIONS = ["Poisoner", "Baron", "Scarlet Woman", "Spy"];
 const OUTSIDERS = ["Drunk", "Recluse", "Saint", "Butler"];
 
 type CharacterSectionProps = {
